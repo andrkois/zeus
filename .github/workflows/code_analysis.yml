@@ -1,0 +1,27 @@
+name: Code Analysis
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install dependencies
+        run: pip install radon clonedigger
+
+      - name: Analyze code
+        run: |
+          radon cc -a -i venv .
+          clonedigger .
